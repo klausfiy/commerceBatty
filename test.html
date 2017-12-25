@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+     <!--{loop $list['products'] $p}-->
+     <tr class="tr-list">
+            <td class="td-name">< img src="{$p['preview_url']}" style="vertical-align:middle;"><span class="td-span">{$p['name']}</span></td>
+            <td>{$p['price']}</td>
+            <td>{$p['amount']}</td>
+            <td>{$p['sumprice']}</td>
+            <td>{$p['unit_desc']}</td>
+    </tr>
+    <!--{/loop}-->
+</body>
+</html>
+<script>
+    function mouseenter(event) {
+        event.stopPropagation();
+        $('.td-edit').css('display','block');
+        var thisTop=$(this).offset().top;
+        thisTr=$(this).parent('.tr-list').index();//tr
+        thisTitle=$(this).parents('table').prev('.table-title').index();//title
+        //   var parentTitle=$(this).parent().parent().parent().prev('.table-title').index();
+        $('.td-edit').css('margin-top',thisTop-200);
+    }
+    // document.addEventListener('mousemove',mouse,false);
+    // document.removeEventListener('mousemove',mouse,false);
+    // document.addEventListener('mousemove',mouse,false);
+    $(".tr-list").children('td').on('mouseenter',mouseenter,false);
+    $(".tr-list").children('td').off('mouseenter',mouseenter,false);
+
+
+    $('tbody').on('click','td',function(){})
+
+
+        $(".tr-list").children('td').on('mouseenter', mouseenter);
+
+        $('.td-edit').on('click', '.edit-btn', function () {
+
+            //修改标题
+            var html = "<span>房间</span>周长：<span>&nbsp;11</span>面积：<span>&nbsp;1111</span>总价：<span>&nbsp;111</span>项目：<span>&nbsp;111</span>";
+
+            $('.table-title').eq(thisTitle / 3).html(html);
+            var tr = $('table').eq(thisTitle / 3).children('tbody').children('.tr-list').eq(thisTr - 1);
+            var trHtml = '<td class="td-name">< img src="' + tr.children('.td-name').children('img')[0].src + '" style="vertical-align:middle;"><span class="td-span"><input type="text" value="' + tr.children('.td-name').children('span').text() + '"></span></td>';
+            for (var i = 1; i < 5; i++) {
+                trHtml += ' <td><input class="edit-input" type="text" name="" value="' + tr.children('td').eq(i).text() + '"></td>';
+            }
+            tr.html(trHtml);
+            $('.td-edit').html('<ul><li><i class="layui-icon go-btn" style="color:#33b371;">&#xe605;</i></li></ul>');
+            $(".tr-list").children('td').off('mouseenter', mouseenter);
+
+            $('.td-edit').on('click', '.go-btn', function () {
+                $('.td-edit').html('<ul><li><i class="layui-icon edit-btn">&#xe642;</i></li><li><i class="layui-icon del-btn">&#xe640;</i></li></ul>');
+                $(".tr-list").children('td').on('mouseenter', mouseenter);
+            });
+        });
+
+
+
+
+</script>
